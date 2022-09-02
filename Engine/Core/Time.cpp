@@ -1,6 +1,8 @@
 #include "Time.h"
 
-	void neu::Time::Tick()
+namespace neu
+{
+	void Time::Tick()
 	{
 		clock_duration duration = clock::now() - m_startTimePoint;
 		time = duration.count() / (float)clock_duration::period::den;
@@ -10,3 +12,4 @@
 
 		m_frameTimePoint = clock::now();
 	}
+}

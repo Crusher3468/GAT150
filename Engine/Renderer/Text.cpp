@@ -1,5 +1,6 @@
 #include "Text.h" 
 #include "Font.h" 
+#include "Renderer.h"
 #include <SDL.h> 
 #include <SDL_ttf.h>
 

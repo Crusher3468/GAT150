@@ -1,16 +1,24 @@
 #pragma once
-#include <iostream>
+#include "Renderer.h"
+#include "Resource/Resource.h"
+#include <string>
 
 struct _TTF_Font;
+struct SDL_Surface;
 
 namespace neu
 {
-	class Font
+	struct Color;
+
+	class Font : public Resource
 	{
 	public:
 		Font() = default;
 		Font(const std::string& filename, int fontSize);
 		~Font();
+
+		bool Create(std::string filename, ...) override;
+		SDL_Surface* CreateSurface(const std::string& text, const Color& color);
 
 		void Load(const std::string& filename, int fontSize);
 

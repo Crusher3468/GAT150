@@ -1,4 +1,7 @@
 #include "Renderer.h"
+#include "Math/Transform.h"
+#include "Math/Rect.h"
+#include "Texture.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_Image.h>
@@ -8,7 +11,7 @@ namespace neu
 	void Renderer::Initialize()
 	{
 		SDL_Init(SDL_INIT_VIDEO);
-		SDL_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+		IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 		TTF_Init();
 	}
 	void Renderer::Shutdown()
@@ -58,6 +61,78 @@ namespace neu
 	{
 		SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 		SDL_RenderDrawPointF(m_renderer, v.x, v.y);
+	}
+
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Vector2& position, float angle, const Vector2& scale, const Vector2& registration)
+	{
+		Vector2 size = texture->GetSize();
+
+		size = size * scale;
+
+		Vector2 origin = size * registration;
+		Vector2 tposition = position - origin;
+
+		SDL_Rect dest;
+
+		dest.x = (int)(tposition.x);
+		dest.y = (int)(tposition.y);
+		dest.w = (int)(size.x);
+		dest.y = (int)(size.y);
+
+		SDL_Point center{ (int)origin.x, (int)origin.y };
+
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, nullptr, &dest, angle, &center, SDL_FLIP_NONE);
+	}
+
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Transform& transform, const Vector2& registration)
+	{
+		Vector2 size = texture->GetSize();
+
+		size = size * transform.scale;
+
+		Vector2 origin = size * registration;
+		Vector2 tposition = transform.position - origin;
+
+		SDL_Rect dest;
+
+		dest.x = (int)(tposition.x);
+		dest.y = (int)(tposition.y);
+		dest.w = (int)(size.x);
+		dest.y = (int)(size.y);
+
+		SDL_Point center{ (int)origin.x, (int)origin.y };
+
+		
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, nullptr, nullptr, transform.rotation, &center, SDL_FLIP_NONE);
+
+	}
+
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Rect& source, const Transform& transform, const Vector2& registration, bool flipH)
+	{
+		Vector2 size = Vector2{ source.w, source.h };
+
+		size = size * transform.scale;
+
+		Vector2 origin = size * registration;
+		Vector2 tposition = transform.position - origin;
+
+		SDL_Rect dest;
+
+		dest.x = (int)(tposition.x);
+		dest.y = (int)(tposition.y);
+		dest.w = (int)(size.x);
+		dest.y = (int)(size.y);
+
+		SDL_Rect src;
+
+		src.x = source.x;
+		src.y = source.y;
+		src.w = source.w;
+		src.h = source.h;
+
+		SDL_Point center{ (int)origin.x, (int)origin.y };
+
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, &src, &dest, transform.rotation, &center, SDL_FLIP_NONE);
 	}
 
 

@@ -1,5 +1,5 @@
 #include "AudioSystem.h"
-#include "..\Core\Logger.h"
+#include "Core/Logger.h"
 #include <fmod.hpp>
 
 namespace neu
@@ -14,7 +14,7 @@ namespace neu
 
 	void AudioSystem::Shutdown()
 	{
-		for (auto& sound : m_sounds)
+		for (auto sound : m_sounds)
 		{
 			sound.second->release();
 		}
@@ -44,23 +44,32 @@ namespace neu
 		}
 	}
 
-	void AudioSystem::PlayAudio(const std::string& name)
+	AudioChannel AudioSystem::PlayAudio(const std::string& name, float volume, float pitch, bool loop)
 	{
-		auto iter = m_sounds.find(name);
-
-		if (iter == m_sounds.end())
 		{
-			LOG("Error could not find sound %s.", name.c_str);
-		}
+			auto iter = m_sounds.find(name);
 
-		if (iter != m_sounds.end())
-		{
+			if (iter == m_sounds.end())
+			{
+				LOG("Error could not find sound %s.", name.c_str());
+				return AudioChannel();
+			}
 
-			FMOD::Sound* sound = iter->second;
-			sound->setMode(FMOD_LOOP_OFF);
+			if (iter != m_sounds.end())
+			{
 
-			FMOD::Channel* channel;
-			m_fmodSystem->playSound(sound, 0, false, &channel);
+				FMOD::Sound* sound = iter->second;
+				FMOD_MODE mode = (loop) ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+				sound->setMode(mode);
+
+				FMOD::Channel* channel;
+				m_fmodSystem->playSound(sound, 0, false, &channel);
+				channel->setVolume(volume);
+				channel->setPitch(pitch);
+				channel->setPaused(false);
+
+				return AudioChannel{ channel };
+			}
 		}
 	}
 }

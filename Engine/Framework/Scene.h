@@ -9,20 +9,34 @@ namespace neu
 	class Renderer;
 	class Game;
 
-	class Scene
+	class Scene : public GameObject, public ISerializable
 	{
 	public:
 		Scene() = default;
-		Scene(Game* game) :m_game{ game } {}
+		Scene(Game* game) : m_game{ game } {}
+		Scene(const Scene& other) {}
 		~Scene() = default;
 
-		void Update();
+		void Initialize() override;
+		void Update() override;
 		void Draw(Renderer& renderer);
 
+		CLASS_DECLARATION(Scene)
+
+		virtual bool Write(const rapidjson::Value& value) const override;
+		virtual bool Read(const rapidjson::Value& value) override;
+
 		void Add(std::unique_ptr<Actor> actor);
+		void RemoveAll();
 
 		template<typename T>
 		T* GetActor();
+
+		template<typename T = Actor>
+		T* GetActorFromName(const std::string& tag);
+
+		template<typename T = Actor>
+		std::vector<T*> GetActorFromTag(const std::string& tag);
 
 		Game* GetGame() { return m_game; }
 
@@ -30,6 +44,7 @@ namespace neu
 		Game* m_game;
 		std::list<std::unique_ptr<Actor>> m_actors;
 	};
+
 	template<typename T>
 	inline T* Scene::GetActor()
 	{
@@ -40,4 +55,37 @@ namespace neu
 		}
 		return nullptr;
 	}
+	template<typename T>
+	inline T* Scene::GetActorFromName(const std::string& name)
+	{
+		for (auto& actor : m_actors)
+		{
+			if (name == actor->GetName())
+			{
+				return dynamic_cast<T*>(actor.get());
+			}
+		}
+		return nullptr;
+	}
+
+	template<typename T>
+	inline std::vector<T*> Scene::GetActorFromTag(const std::string& tag)
+	{
+		std::vector<T*> result;
+
+		for (auto& actor : m_actors)
+		{
+			if (tag == actor->GetTag())
+			{
+				T* TagActor = dynamic_cast<T*>(actor.get());
+				if (TagActor)
+				{
+					result.push_back(TagActor);
+				}
+			}
+		}
+
+		return std::vector<T*>();
+	}
+
 }

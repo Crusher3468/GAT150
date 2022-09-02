@@ -11,10 +11,8 @@ namespace neu
 		va_list args;
 		va_start(args, format);
 
-		char str{ 1024 };
-		vprintf(str, 1024, format, args);
-
-		std::cout << str << std::endl;
+		char str[ 1024 ];
+		vsprintf_s(str, 1024, format, args);
 
 		va_end(args);
 	}

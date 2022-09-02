@@ -17,10 +17,7 @@ namespace neu
 
 		void Log(const char* format, ...);
 
-
 	private:
-
-
 	};
 
 	extern Logger g_logger;

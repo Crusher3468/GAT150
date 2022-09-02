@@ -2,20 +2,21 @@
 #include<cstdint>
 #include<vector>
 #include<array>
-#include "../Math/Vector2.h"
+#include "Math/Vector2.h"
 
 namespace neu
 {
 	class InputSystem
 	{
 	public:
-		enum State
+		enum class State
 		{
 			Idle,
 			Pressed,
 			Held,
 			Released
 		};
+
 
 		InputSystem() = default;
 		~InputSystem() = default;
@@ -55,5 +56,6 @@ namespace neu
 	extern const uint32_t button_middle;
 	extern const uint32_t button_right;
 	extern const uint32_t key_restart;
+	extern const uint32_t key_enter;
 
 }

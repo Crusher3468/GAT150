@@ -11,6 +11,7 @@ namespace neu
 	const uint32_t key_right = SDL_SCANCODE_D;
 	const uint32_t key_restart= SDL_SCANCODE_R;
 	const uint32_t key_escape = SDL_SCANCODE_ESCAPE;
+	const uint32_t key_enter = SDL_SCANCODE_B;
 	const uint32_t button_left = 0;
 	const uint32_t button_middle = 1;
 	const uint32_t button_right = 2;
@@ -48,32 +49,32 @@ namespace neu
 		std::copy(keyboardState, keyboardState + m_numKeys, m_keyboardState.begin());
 	}
 
-	inline InputSystem::State InputSystem::GetKeyState(uint32_t key)
+	InputSystem::State InputSystem::GetKeyState(uint32_t key)
 	{
 		State keyState = State::Idle;
 
 		bool keyDown = GetKeyDown(key);
 		bool prevKeydown = GetPreviousKeyDown(key);
 
-		if (!keyDown && !prevKeydown) { keyState = Idle; }
-		if (keyDown && !prevKeydown) { keyState = Pressed; }
-		if (keyDown && prevKeydown) { keyState = Held; }
-		if (!keyDown && prevKeydown) { keyState = Released; }
+		if (!keyDown && !prevKeydown) { keyState = State::Idle; }
+		if (keyDown && !prevKeydown) { keyState = State::Pressed; }
+		if (keyDown && prevKeydown) { keyState = State::Held; }
+		if (!keyDown && prevKeydown) { keyState = State::Released; }
 
 		return keyState;
 	}
 
-	inline InputSystem::State InputSystem::GetButtonState(uint32_t button)
+	InputSystem::State InputSystem::GetButtonState(uint32_t button)
 	{
 		State buttonState = State::Idle;
 
 		bool buttonDown = getButtonDown(button);
 		bool prevButtonDown = GetPreviousButtonDown(button);
 
-		if (!buttonDown && !prevButtonDown) { buttonState = Idle; }
-		if (buttonDown && !prevButtonDown) { buttonState = Pressed; }
-		if (buttonDown && prevButtonDown) { buttonState = Held; }
-		if (!buttonDown && prevButtonDown) { buttonState = Released; }
+		if (!buttonDown && !prevButtonDown) { buttonState = State::Idle; }
+		if (buttonDown && !prevButtonDown) { buttonState = State::Pressed; }
+		if (buttonDown && prevButtonDown) { buttonState = State::Held; }
+		if (!buttonDown && prevButtonDown) { buttonState = State::Released; }
 
 		return buttonState;
 	}

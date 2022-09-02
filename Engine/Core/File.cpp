@@ -1,4 +1,5 @@
 #include "File.h"
+#include "Logger.h"
 #include <filesystem>
 #include <fstream>
 
@@ -27,8 +28,11 @@ bool neu::GetFileSize(const std::string& pathname, size_t& size)
 
 bool neu::ReadFile(const std::string& pathname, std::string& buffer)
 {
-	if (!FileExists(pathname)) return false;
-
+	if (!FileExists(pathname))
+	{
+		LOG("Error Could not read file %s", pathname.c_str());
+		return false;
+	}
 	size_t size;
 	GetFileSize(pathname, size);
 	buffer.resize(size);
@@ -39,5 +43,3 @@ bool neu::ReadFile(const std::string& pathname, std::string& buffer)
 
 	return true;
 }
-
-
