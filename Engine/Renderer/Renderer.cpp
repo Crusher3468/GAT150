@@ -2,6 +2,7 @@
 #include "Math/Transform.h"
 #include "Math/Rect.h"
 #include "Texture.h"
+#include "Math/MathUtils.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_Image.h>
@@ -13,6 +14,9 @@ namespace neu
 		SDL_Init(SDL_INIT_VIDEO);
 		IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 		TTF_Init();
+		
+		m_view = Matrix3x3::identity;
+		m_viewport = Matrix3x3::identity;
 	}
 	void Renderer::Shutdown()
 	{
@@ -54,6 +58,7 @@ namespace neu
 
 	void Renderer::DrawPoint(float x, float y)
 	{
+		SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 		SDL_RenderDrawPointF(m_renderer, x, y);
 	}
 
@@ -77,7 +82,7 @@ namespace neu
 		dest.x = (int)(tposition.x);
 		dest.y = (int)(tposition.y);
 		dest.w = (int)(size.x);
-		dest.y = (int)(size.y);
+		dest.h = (int)(size.y);
 
 		SDL_Point center{ (int)origin.x, (int)origin.y };
 
@@ -98,7 +103,7 @@ namespace neu
 		dest.x = (int)(tposition.x);
 		dest.y = (int)(tposition.y);
 		dest.w = (int)(size.x);
-		dest.y = (int)(size.y);
+		dest.h = (int)(size.y);
 
 		SDL_Point center{ (int)origin.x, (int)origin.y };
 
@@ -109,19 +114,21 @@ namespace neu
 
 	void Renderer::Draw(std::shared_ptr<Texture> texture, const Rect& source, const Transform& transform, const Vector2& registration, bool flipH)
 	{
+		Matrix3x3 mx = m_viewport * m_view * transform.matrix;
+
 		Vector2 size = Vector2{ source.w, source.h };
 
-		size = size * transform.scale;
+		size = size * mx.GetScale();
 
 		Vector2 origin = size * registration;
-		Vector2 tposition = transform.position - origin;
+		Vector2 tposition = mx.GetTranslation() - origin;
 
 		SDL_Rect dest;
 
 		dest.x = (int)(tposition.x);
 		dest.y = (int)(tposition.y);
 		dest.w = (int)(size.x);
-		dest.y = (int)(size.y);
+		dest.h = (int)(size.y);
 
 		SDL_Rect src;
 
@@ -132,7 +139,7 @@ namespace neu
 
 		SDL_Point center{ (int)origin.x, (int)origin.y };
 
-		SDL_RenderCopyEx(m_renderer, texture->m_texture, &src, &dest, transform.rotation, &center, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, &src, &dest, neu::RadToDeg(mx.GetRotation()), &center, SDL_FLIP_NONE);
 	}
 
 

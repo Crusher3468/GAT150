@@ -17,12 +17,12 @@ namespace neu
 
 			if (actorA->isDestroyed() || actorB->isDestroyed()) return;
 
-			if (!actorA->GetComponent<CollisionComponent>())
+			if (actorA->GetComponent<CollisionComponent>())
 			{
 				actorA->GetComponent<CollisionComponent>()->OnCollisionEnter(actorB);
 			}
 
-			if (!actorB->GetComponent<CollisionComponent>())
+			if (actorB->GetComponent<CollisionComponent>())
 			{
 				actorB->GetComponent<CollisionComponent>()->OnCollisionEnter(actorA);
 			}

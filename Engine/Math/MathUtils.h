@@ -51,7 +51,7 @@ namespace neu
 		return std::fmod(num, den);
 	}
 
-	template <typename T>
+	template <>
 	inline int mod(int num, int den)
 	{
 		return num % den; 
@@ -65,7 +65,4 @@ namespace neu
 
 		return value;
 	}
-
-	int sqr(int v);
-	inline int half(int v) { return v / 2; }
 }

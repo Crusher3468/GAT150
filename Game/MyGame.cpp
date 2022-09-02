@@ -27,8 +27,6 @@ void MyGame::Initialize()
 
 	neu::g_eventManager.Subscribe("EVENT_ADD_POINTS", std::bind(&MyGame::OnAddPoints, this, std::placeholders::_1));
 	neu::g_eventManager.Subscribe("EVENT_PLAYER_DEAD", std::bind(&MyGame::OnAddPoints, this, std::placeholders::_1));
-
-	m_gameState = gameState::TileScreen;
 }
 
 void MyGame::Shutdown()
@@ -49,8 +47,6 @@ void MyGame::Update()
 
 		if (neu::g_inputSystem.GetKeyState(neu::key_space) == neu::InputSystem::State::Held)
 		{
-			std::cout << "enter" << std::endl;
-
 			m_scene->GetActorFromName("Title")->SetActive(false);
 
 			m_gameState = gameState::startLevel;
@@ -65,6 +61,21 @@ void MyGame::Update()
 		{
 			auto actor = neu::Factory::Instance().Create<neu::Actor>("Coin");
 			actor->m_transform.position = { neu::randomf(0, 800), 100.0f };
+			actor->Initialize();
+
+			m_scene->Add(std::move(actor));
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			auto actor = neu::Factory::Instance().Create<neu::Actor>("Demon");
+			actor->m_transform.position = { neu::randomf(0, 800), 100.0f };
+			actor->Initialize();
+
+			m_scene->Add(std::move(actor));
+		}
+		{
+			auto actor = neu::Factory::Instance().Create<neu::Actor>("Player");
+			actor->m_transform.position = { 400.0f, 250.0f };
 			actor->Initialize();
 
 			m_scene->Add(std::move(actor));

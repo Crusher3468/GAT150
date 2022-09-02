@@ -56,7 +56,7 @@ namespace neu
 
     bool SpriteAnimComponent::Write(const rapidjson::Value& value) const
     {
-        return false;
+        return true;
     }
 
     bool SpriteAnimComponent::Read(const rapidjson::Value& value)

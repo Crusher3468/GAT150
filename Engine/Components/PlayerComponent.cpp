@@ -34,13 +34,36 @@ namespace neu
 
 		}
 
+		auto animComponent = m_owner->GetComponent<SpriteAnimComponent>();
+		if (animComponent)
+		{
+			if (velocity.x != 0) animComponent->SetFlipHorizontal(velocity.x < 0);
+			if (std::fabs(velocity.x) > 0)
+			{
+				animComponent->SetSequence("run");
+			}
+			else
+			{
+				animComponent->SetSequence("idle");
+			}
+		}
+
 		if (m_groundCount > 0 && g_inputSystem.GetKeyState(key_up) == InputSystem::State::Pressed)
 		{
 			auto component = m_owner->GetComponent<PhysicsComponent>();
 			if (component)
 			{
-				component->ApplyForce(Vector2::up * jump);
+				float multiplier = (m_groundCount > 0) ? 1 : 0.2f;
+
+				component->ApplyForce(direction * speed * multiplier);
+				velocity = component->velocity;
 			}
+		}
+
+		auto camera = m_owner->GetScene()->GetActorFromName("Camera");
+		if (camera)
+		{
+			camera->m_transform.position = neu::Lerp(camera->m_transform.position, m_owner->m_transform.position, 2 * g_time.deltaTime);
 		}
 	}
 	void PlayerComponent::OnCollisionEnter(Actor* other)
@@ -73,7 +96,10 @@ namespace neu
 
 	void PlayerComponent::OnCollisionExit(Actor* other)
 	{
-		if (other->GetTag() == "Ground");
+		if (other->GetTag() == "Ground")
+		{
+			m_groundCount--;
+		}
 	}
 
 	void PlayerComponent::OnNotify(const Event& event)

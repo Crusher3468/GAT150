@@ -33,7 +33,7 @@ namespace neu
 		T* GetActor();
 
 		template<typename T = Actor>
-		T* GetActorFromName(const std::string& tag);
+		T* GetActorFromName(const std::string& name);
 
 		template<typename T = Actor>
 		std::vector<T*> GetActorFromTag(const std::string& tag);
@@ -55,6 +55,7 @@ namespace neu
 		}
 		return nullptr;
 	}
+
 	template<typename T>
 	inline T* Scene::GetActorFromName(const std::string& name)
 	{

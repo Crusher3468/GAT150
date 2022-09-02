@@ -1,5 +1,4 @@
 #pragma once
-
 #include <cmath>
 #include <sstream>
 #include<string>
@@ -123,8 +122,8 @@ namespace neu
 
 	inline float Vector2::GetSignedAngleBetween(const Vector2& v)
 	{
-		float y = x * v.y - y * v.x; // perpendicular dot product
-		float x = x * v.x + y * v.y; // dot product
+		float y = x * v.y - y * v.x; 
+		float x = x * v.x + y * v.y; 
 
 		return std::atan2(y, x);
 	}

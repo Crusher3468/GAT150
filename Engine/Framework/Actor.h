@@ -31,7 +31,7 @@ namespace neu
 		T* GetComponent();
 
 		virtual void OnCollision(Actor* other) {}
-		float GetRadius() { return 0; } //{ return m_model.GetRadius() * std::max(m_transform.scale.x, m_transform.scale.y); }
+		float GetRadius() { return 0; }
 
 		const std::string& GetTag() { return tag; }
 		void SetTag(const std::string& tag) { this->tag = tag; }
@@ -48,7 +48,7 @@ namespace neu
 		Scene* GetScene() { return m_scene; }
 
 		friend class Scene;
-		friend class Component;
+		friend class PlayerComponent;
 
 		Transform m_transform;
 
