@@ -24,7 +24,7 @@ namespace neu
 			Vector2 size;
 			float density = 1;
 			float friction = 1;
-			float restitution = 0.3f;
+			float restitution = 0.1f;
 			bool is_triggered = false;
 		};
 

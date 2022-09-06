@@ -14,6 +14,7 @@ namespace neu
 
 	bool Texture::Create(std::string filename, ...)
 	{
+
 		va_list args;
 
 		va_start(args, filename);
@@ -57,7 +58,6 @@ namespace neu
 		m_texture = SDL_CreateTextureFromSurface(renderer.m_renderer, surface);
 		if (m_texture == nullptr)
 		{
-			SDL_FreeSurface(surface);
 			LOG(SDL_GetError());
 			return false;
 		}

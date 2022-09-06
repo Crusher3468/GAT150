@@ -5,6 +5,7 @@
 void EnemyComponent::Initialize()
 {
     CharacterComponent::Initialize();
+    neu::g_eventManager.Subscribe("EVENT_DROP", std::bind(&CharacterComponent::OnNotify, this, std::placeholders::_1), m_owner);
 }
 
 void EnemyComponent::Update()
@@ -17,6 +18,14 @@ void EnemyComponent::Update()
 
         auto component = m_owner->GetComponent<neu::PhysicsComponent>();
         if (component) component->ApplyForce(force);
+        
+        {
+            auto component = m_owner->GetComponent<neu::RenderComponent>();
+            if (component)
+            {
+                component->SetFlipHorizontal(direction.x < 0);
+            }
+        }
     }
 }
 

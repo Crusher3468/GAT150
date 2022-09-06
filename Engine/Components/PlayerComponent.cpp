@@ -1,13 +1,19 @@
 #include "PlayerComponent.h"
-#include "Framework/Game.h"
 #include "Engine.h"
 #include <iostream>
 
 namespace neu
 {
+	PlayerComponent::~PlayerComponent()
+	{
+		g_eventManager.Unsubscribe("EVENT_HEAL", m_owner);
+		g_eventManager.Unsubscribe("EVENT_DROP", m_owner);
+	}
 	void PlayerComponent::Initialize()
 	{
 		CharacterComponent::Initialize();
+		g_eventManager.Subscribe("EVENT_HEAL", std::bind(&CharacterComponent::OnNotify, this, std::placeholders::_1), m_owner);
+		g_eventManager.Subscribe("EVENT_DROP", std::bind(&CharacterComponent::OnNotify, this, std::placeholders::_1), m_owner);
 	}
 
 	void PlayerComponent::Update()
@@ -29,7 +35,7 @@ namespace neu
 		{
 			float multiplier = (m_groundCount > 0) ? 1 : 0.2f;
 
-			component->ApplyForce(direction * speed);
+			component->ApplyForce(direction * speed * multiplier);
 			velocity = component->velocity;
 
 		}
@@ -63,9 +69,10 @@ namespace neu
 		auto camera = m_owner->GetScene()->GetActorFromName("Camera");
 		if (camera)
 		{
-			camera->m_transform.position = neu::Lerp(camera->m_transform.position, m_owner->m_transform.position, 2 * g_time.deltaTime);
+			camera->m_transform.position = Lerp(camera->m_transform.position, m_owner->m_transform.position, 2 * g_time.deltaTime);
 		}
 	}
+
 	void PlayerComponent::OnCollisionEnter(Actor* other)
 	{
 		if (other->GetName() == "Coin")
@@ -107,7 +114,6 @@ namespace neu
 		if (event.name == "EVENT_DAMAGE")
 		{
 			health -= std::get<float>(event.data);
-			std::cout << health << std::endl;
 			if (health <= 0)
 			{
 				Event event;

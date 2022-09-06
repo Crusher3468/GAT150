@@ -1,5 +1,6 @@
 #pragma once
 #include"Actor.h"
+#include "Factory.h"
 #include<list>
 #include<memory>
 
@@ -76,7 +77,7 @@ namespace neu
 
 		for (auto& actor : m_actors)
 		{
-			if (tag == actor->GetTag())
+			if (actor.get()->GetName())
 			{
 				T* TagActor = dynamic_cast<T*>(actor.get());
 				if (TagActor)
@@ -86,7 +87,7 @@ namespace neu
 			}
 		}
 
-		return std::vector<T*>();
+		return result;
 	}
 
 }

@@ -22,16 +22,6 @@ namespace neu
 			LOG("Error could not create model %s", filename.c_str());
 			return false;
 		}
-
-		va_list args;
-
-		va_start(args, filename);
-
-		Renderer& renderer = va_arg(args, Renderer);
-
-		va_end(args);
-
-		return true;
 	}
 
 	void Model::Draw(Renderer& renderer, const Vector2& position, float angle, const Vector2& scale)

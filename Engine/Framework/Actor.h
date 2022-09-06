@@ -1,7 +1,9 @@
 #pragma once
 #include "GameObject.h"
 #include "Component.h"
+#include "Math/Transform.h"
 #include <vector>
+#include <memory>
 
 namespace neu
 {
@@ -48,7 +50,7 @@ namespace neu
 		Scene* GetScene() { return m_scene; }
 
 		friend class Scene;
-		friend class PlayerComponent;
+		friend class Component;
 
 		Transform m_transform;
 

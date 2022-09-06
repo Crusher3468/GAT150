@@ -139,6 +139,7 @@ namespace neu
 
 		SDL_Point center{ (int)origin.x, (int)origin.y };
 
+		SDL_RendererFlip flip = (flipH) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 		SDL_RenderCopyEx(m_renderer, texture->m_texture, &src, &dest, neu::RadToDeg(mx.GetRotation()), &center, SDL_FLIP_NONE);
 	}
 

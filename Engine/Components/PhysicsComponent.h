@@ -4,8 +4,6 @@
 
 namespace neu
 {
-	class Actor;
-
 	class PhysicsComponent : public Component
 	{
 

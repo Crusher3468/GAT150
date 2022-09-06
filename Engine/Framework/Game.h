@@ -24,7 +24,7 @@ namespace neu
 
 	protected:
 		int m_score = 0;
-		int m_phealth = 100;
+		int m_phealth = 0;
 		std::unique_ptr<Scene>m_scene;
 	};
 }

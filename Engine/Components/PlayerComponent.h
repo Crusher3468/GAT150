@@ -10,6 +10,7 @@ namespace neu
 	public:
 		CLASS_DECLARATION(PlayerComponent)
 		PlayerComponent() = default;
+		~PlayerComponent() ;
 
 		void Initialize() override;
 		void Update() override;

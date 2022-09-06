@@ -2,6 +2,7 @@
 #include "Math/MathUtils.h"
 
 
+
 namespace neu
 {
 	const float PhysicsSystem::pixelsPerUnit = 48.0f;
@@ -16,7 +17,6 @@ namespace neu
 
 	void PhysicsSystem::Shutdown()
 	{
-		m_world->Step(1.0f / 60.0f, 8, 3);
 	}
 
 	b2Body* PhysicsSystem::CreateBody(const Vector2& position, float angle, const RigidBodyData& data)
@@ -26,7 +26,7 @@ namespace neu
 		b2BodyDef bodyDef;
 		bodyDef.type = (data.is_dynamic) ? b2_dynamicBody : b2_staticBody;
 		bodyDef.position = *((b2Vec2*)(&worldPosition));
-		bodyDef.angle = neu::DegToRad(angle);
+		bodyDef.angle = DegToRad(angle);
 		bodyDef.fixedRotation = data.constain_angle;
 		b2Body* body = m_world->CreateBody(&bodyDef);
 

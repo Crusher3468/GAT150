@@ -30,7 +30,7 @@ namespace neu
 		float GetRadius() { return m_radius; }
 
 	private:
-		neu::Color m_color;
+		neu::Color m_color{ 0,0,0,0 };
 		std::vector<neu::Vector2> m_points;
 		float m_radius = 0;
 	};

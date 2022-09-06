@@ -41,7 +41,7 @@ namespace neu
 
 	void AudioComponent::Play()
 	{
-		Stop();
+		m_channel.Stop();
 		m_channel = g_audioSystem.PlayAudio(m_soundName, m_volumn, m_pitch, loop);
 	}
 
