@@ -37,9 +37,9 @@ bool neu::ReadFile(const std::string& pathname, std::string& buffer)
 	GetFileSize(pathname, size);
 	buffer.resize(size);
 
-	std::ifstream stream(pathname);
-	stream.read(buffer.data(), size);
-	stream.close();
+	std::ifstream fstream(pathname);
+	fstream.read(buffer.data(), size);
+	fstream.close();
 
 	return true;
 }

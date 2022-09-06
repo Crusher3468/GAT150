@@ -84,10 +84,14 @@ namespace neu
         }
 
         std::string default_sequence;
+        READ_DATA(value, default_sequence);
         if (!READ_DATA(value, default_sequence))
         {
             default_sequence = m_sequences.begin()->first;
         }
+
+        SetSequence(default_sequence);
+
         return true;
     }
 }

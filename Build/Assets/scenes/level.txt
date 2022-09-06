@@ -142,7 +142,7 @@
                "type":"TextComponent",
                "text":"0000",
                "font_name":"fonts/SF_Archery_Black.ttf",
-               "font_size":48,
+               "font_size":24,
                "registration":[
                   0,
                   0
@@ -176,7 +176,7 @@
                "type":"TextComponent",
                "text":"0000",
                "font_name":"fonts/SF_Archery_Black.ttf",
-               "font_size":48,
+               "font_size":24,
                "registration":[
                   0,
                   0

@@ -64,12 +64,13 @@ namespace neu
 				if (prefab)
 				{
 					std::string name = actor->GetName();
-					//Factory::Instance().RegisterPrefab(name, std::move(actor));
+					Factory::Instance().RegisterPrefab(name, std::move(actor));
 				}
 				else
 				{
 					Add(std::move(actor));
 				}
+
 			}
 		}
 

@@ -57,7 +57,7 @@ void MyGame::Update()
 		m_scene->GetActorFromName("Score")->SetActive(true);
 		m_scene->GetActorFromName("Health")->SetActive(true);
 
-		/*for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			auto actor = neu::Factory::Instance().Create<neu::Actor>("Coin");
 			actor->m_transform.position = { neu::randomf(0, 800), 100.0f };
@@ -79,7 +79,7 @@ void MyGame::Update()
 			actor->Initialize();
 
 			m_scene->Add(std::move(actor));
-		}*/
+		}
 		m_gameState = gameState::game;
 		break;
 	case gameState::game:
